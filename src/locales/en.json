@@ -1,7 +1,7 @@
 {
   "common": {
-    "appName": "POS Universal",
-    "welcome": "Welcome to POS Universal!",
+    "appName": "react-vite-auth",
+    "welcome": "Welcome to react-vite-auth!",
 
     "email": "Email",
     "emailPlaceholder": "Email@...",
@@ -54,7 +54,7 @@
     "dashboard_label": "Dashboard",
     "dashboard_desc": "Real-time overview of sales and system status.",
     "home_label": "Home",
-    "home_desc": "Quick access to primary POS functions.",
+    "home_desc": "Quick access to primary react-vite-auth functions.",
     
     "logIn_label": "Sign In",
     "logIn_desc": "Log in to synchronize local data.",
