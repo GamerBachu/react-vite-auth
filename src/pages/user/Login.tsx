@@ -5,14 +5,13 @@ import ThemeToggleIcon from "@/components/ThemeToggleIcon";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { isValidPath, PATHS } from "@/routes/paths";
 import { useAuth } from "@/contexts/authorize";
-import type { User, UserToken } from "@/types/user";
+import type { IAuthUser, IAuthResponse } from "@/types/user";
 import { getName } from "@/utils";
 import type { IAuthorize } from "@/contexts/authorize/type";
+import type { IActionState } from "@/types/actionState";
+import LoggerUtils from "@/utils/logger";
 
-interface ActionState {
-  success: boolean | null;
-  message: string;
-}
+
 
 const Login: React.FC = () => {
   const auth = useAuth();
@@ -20,15 +19,15 @@ const Login: React.FC = () => {
   const location = useLocation();
 
   const loginAction = async (
-    prevState: ActionState | null,
+    _: IActionState | null,
     formData: FormData,
-  ): Promise<ActionState> => {
+  ): Promise<IActionState> => {
     try {
       const username = formData.get("username") as string;
       const password = formData.get("password") as string;
 
       if (!username || !password) {
-        return { success: false, message: resource.login.invalidCredentials };
+        return { success: false, message: resource.login.invalid_credentials };
       }
       const response = await userApi.postLogin(username, password);
 
@@ -39,13 +38,10 @@ const Login: React.FC = () => {
       // Handling statuses based on our ServiceResponse structure
       switch (response.status) {
         case 200: {
-          const { user, token } = response.data as {
-            user: User;
-            token: UserToken;
-          };
+          const { user, token } = response.data as IAuthResponse;
 
-          const authUser = {
-            guid: user.guid,
+          const authUser: IAuthUser = {
+            userId: user.id,
             displayName: getName(
               user.nameFirst,
               user.nameMiddle,
@@ -53,27 +49,27 @@ const Login: React.FC = () => {
             ),
             username: user.username,
             roles: [],
-            refreshToken: "",
+            refreshToken: token.token,
           };
 
           const info: IAuthorize = {
             authUser,
-            appToken: token.token,
             isAuthorized: true,
           };
 
           auth.setInfo(info);
 
-          return { success: true, message: resource.login.successMessage };
+          return { success: true, message: resource.login.success_message };
         }
         case 400:
         case 401:
         case 404:
-          return { success: false, message: resource.login.invalidCredentials };
+          return { success: false, message: resource.login.invalid_credentials };
         default:
           return { success: false, message: resource.common.error };
       }
-    } catch {
+    } catch (error: unknown) {
+      LoggerUtils.logCatch(error, "Login", "handleAction", "76");
       return {
         success: false,
         message: resource.common.error,
@@ -127,27 +123,27 @@ const Login: React.FC = () => {
         <form action={formAction} className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1.5 text-gray-700 dark:text-gray-300">
-              {resource.common.usernameLabel}
+              {resource.common.username}
             </label>
             <input
               type="text"
               name="username"
               required
               className="w-full px-4 py-2 rounded-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
-              placeholder={resource.common.usernamePlaceholder}
+              placeholder={resource.common.ph_username}
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium mb-1.5 text-gray-700 dark:text-gray-300">
-              {resource.common.passwordLabel}
+              {resource.common.password}
             </label>
             <input
               type="password"
               name="password"
               required
               className="w-full px-4 py-2 rounded-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
-              placeholder={resource.common.passwordPlaceholder}
+              placeholder={resource.common.ph_password}
             />
           </div>
 

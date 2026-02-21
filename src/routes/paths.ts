@@ -8,7 +8,22 @@ export const PATHS = {
     LOGOUT: '/account/logout',
     VERIFY: '/account/verify',
     ERROR: '/error',
-    NOT_FOUND:"/not-found"
+    NOT_FOUND: "/not-found",
+
+
+    MASTER_ATTRIBUTE_LIST: "/m_pro_attribute/list",
+    MASTER_ATTRIBUTE_ADD: "/m_pro_attribute/page/add/",
+    MASTER_ATTRIBUTE_EDIT: "/m_pro_attribute/page/edit/",
+    MASTER_ATTRIBUTE_VIEW: "/m_pro_attribute/page/view/",
+    MASTER_ATTRIBUTE_DELETE: "/m_pro_attribute/page/delete/",
+
+
+    SYSTEM_LOG_LIST: "/sys_log/list",
+    SYSTEM_LOG_ADD: "/sys_log/page/add/",
+    SYSTEM_LOG_EDIT: "/sys_log/page/edit/",
+    SYSTEM_LOG_VIEW: "/sys_log/page/view/",
+    SYSTEM_LOG_DELETE: "/sys_log/page/delete/",
+
 
 } as const;
 

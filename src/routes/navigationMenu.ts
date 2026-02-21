@@ -21,6 +21,16 @@ const NavigationMenu: IMenuItem[] = [
         icon: "🏠",
     },
 
+   
+    {
+        path: PATHS.MASTER_ATTRIBUTE_LIST,
+        label: resource.navigation.master_pro__attr_label,
+        description: resource.navigation.master_pro__attr_desc,
+        category: "product",
+        isVisible: true,
+        icon: "🛒",
+    },
+
     // --- Account & Auth Routes ---
     {
         path: PATHS.LOGIN,
@@ -67,6 +77,16 @@ const NavigationMenu: IMenuItem[] = [
         icon: "🔍",
     },
 
+
+    {
+        path: PATHS.SYSTEM_LOG_LIST,
+        label: resource.navigation.system_log_list_label,
+        description: resource.navigation.system_log_list_desc,
+        category: "system",
+        isVisible: true,
+        icon: "📋",
+
+    },
     //should on last
     {
         path: PATHS.LOGOUT,

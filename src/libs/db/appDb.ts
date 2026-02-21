@@ -1,18 +1,32 @@
 import Dexie, { type EntityTable } from "dexie";
-import { type Product } from "@/types/product";
-import { type User ,type UserToken} from "@/types/user";
 
+import { type IMasterProductAttribute } from "@/types/masters";
+import { type IUser, type IRefreshToken } from "@/types/user";
+import type { ISystemLog } from "@/types/systemLog";
 
 class POSUniversalDexie extends Dexie {
-    products!: EntityTable<Product, "id">;
-    users!: EntityTable<User, "id">;
-    userTokens!: EntityTable<UserToken, "id">;
+    users!: EntityTable<IUser, "id">;
+    refreshTokens!: EntityTable<IRefreshToken, "id">;
+
+    systemLogs!: EntityTable<ISystemLog, "id">;
+
+
+    masterProductAttributes!: EntityTable<IMasterProductAttribute, "id">;
+
+
+
     constructor() {
         super("POS_UniversalDB_0012");
         this.version(1).stores({
-            products: "++id,name,price,stock",
             users: "++id,guid,name,email,username,password,isActive",
-            userTokens:"++id,userId,token,validTill"
+            refreshTokens: "++id,userId,token,expiresAt,browser,os,deviceType",
+
+
+            systemLogs: '++id,type,pageName,timestamp',
+
+            masterProductAttributes: '++id,name',
+
+
         });
     }
 }
